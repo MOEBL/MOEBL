@@ -1,0 +1,88 @@
+  My Online eBook Library (MOEBL)
+===================================
+
+MOEBL enables you to create your own online OPDS/HTML eBook Library.
+Using calibres metadata.db, format, & cover files along with your eBook files you can
+create a library/catalog to download your eBooks to any device that has the facility
+to read the downloaded eBook format (eg. epub, PDF, mobi, etc...).
+
+
+ Requirements.
+---------------
++ A web server with PHP 5.3 or 5.4 with GD image processing & SQLite3 support.
++ Calibre library/database files (metadata.db, format, & cover files).
++ eBook files.
+
+
+ Installation.
+---------------
++ Extract the zip file to a folder on your web server.
++ Edit config.php with your own settings.
+
+If your Calibre database is inside your web directory then there is no need for you to
+set an internal location in the config.php file.
+
+
+ Notes on OpenSearch.
+----------------------
+OpenSearch allows searching through an OPDS catalog. This works with FBReader and
+Mantano Reader for Android based devices but it seems that Aldiko didn't implement it
+correctly so it won't work with Aldiko.
+
+
+ URL rewriting.
+----------------
+ + Apache.
+   Put the following in the .htaccess file located where you extracted MOEBL:
+        RewriteEngine on
+        RewriteOptions inherit
+        RewriteRule ^download/(.*)/.*\.(.*)$ fetch.php?data=$1&type=$2 [L]
+        
+    If you don't have mod_xsendfile, then in the config file set;
+        $config['moebl_x_accel_redirect'] = "location"; 
+ 
+ + Nginx.
+    location /download/ {
+      rewrite ^/download/(\d+)/.*\.(.*)$ /fetch.php?data=$1&type=$2 last;
+      break;
+    }
+    
+ + Cherokee.
+   + Add a Behavior of type Regular Expression: /moebl/download/(.*)/.*\.(.*)$
+   + Choose the handler Redirection
+   + Add the substitution regexp: "/moebl/download/(.*)/.*\.(.*)$" --> "/moebl/fetch.php?data=$1&type=$2"
+
+
+ Known Problems.
+-----------------
+ + So far MOEBL works with with Apache based web servers (may work with others, please let me know).
+ + This is only early stages of this script so they maybe other issues, which will be sorted out eventually.
+
+
+ Disclaimer.
+-------------
+By continuing to use this software and its code you acknowledge this disclaimer section of this README file
+in its entirety.
+
+I have only tested this myself on Apache based web servers, it may work on others but either way I can in
+no way be held responsible for any loss of data or damages that may be or may have been caused by the use
+if this software and its code. YOU USE IT AT YOUR OWN RISK!
+
+On the OPDS client side MOEBLS has been tested with FBReader and Aldiko on Android based devices, and with
+Stanza on iOS based devices.
+
+
+ Credits.
+----------
+ + All localization informations come from Calibre2OPDS (http://calibre2opds.com/)
+ + Locale message handling is inspired by http://www.mind-it.info/2010/02/22/a-simple-approach-to-localization-in-php/
+ + str_format function come from http://tmont.com/blargh/2010/1/string-format-in-php
+ + Sébastien Lucas' COPS script, from which this code would not have been possible.
+ + All testers
+
+
+ Copyright & License.
+----------------------
+MOEBL - Copyright (c) 2012 My Online eBook Library (MOEBLib@gmail.com)
+
+See the COPYING file, and file headers for license info.
