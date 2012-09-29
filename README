@@ -17,6 +17,7 @@ to read the downloaded eBook format (eg. epub, PDF, mobi, etc...).
  Installation.
 ---------------
 + Extract the zip file to a folder on your web server.
++ Make a copy of the file config_default.php and rename the copy to config.php
 + Edit config.php with your own settings.
 
 If your Calibre database is inside your web directory then there is no need for you to
